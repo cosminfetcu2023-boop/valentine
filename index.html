@@ -14,16 +14,18 @@ body{
     display:flex;
     justify-content:center;
     align-items:center;
-    height:100vh;
-    overflow:hidden;
+    min-height:100vh;
+    overflow:auto; /* permite scroll pe telefon */
 }
 
 .container{
     max-width:400px;
+    width:90%;
+    padding:20px;
 }
 
 h1{
-    font-size:26px;
+    font-size:24px;
 }
 
 button{
@@ -46,6 +48,8 @@ button{
 
 img{
     width:100%;
+    max-height:45vh; /* limitează dimensiunea pe mobil */
+    object-fit:contain;
     border-radius:12px;
     margin-top:15px;
 }
@@ -81,12 +85,12 @@ img{
 function firstNo(){
     document.getElementById("main").innerHTML = `
         <h1>dc nu ma iubesti</h1>
-        <img src="poza1.jpg">
         <h1>vrei sa fii valentinul meu</h1>
         <div>
             <button class="active" onclick="lose()">vreau sa te omor</button>
             <button class="active" onclick="win()">vreau sa ti musc curu</button>
         </div>
+        <img src="poza1.jpg">
     `;
 }
 
