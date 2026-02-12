@@ -6,126 +6,139 @@
 <title>valentine</title>
 
 <style>
-body{
-    margin:0;
-    font-family: Arial, sans-serif;
-    text-align:center;
-    background:#fff0f5;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    min-height:100vh;
-    overflow:auto; /* permite scroll pe telefon */
-}
+  body{
+      margin:0;
+      font-family: Arial, sans-serif;
+      text-align:center;
+      background:#fff0f5;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      min-height:100vh;
+      overflow:auto;
+  }
 
-.container{
-    max-width:400px;
-    width:90%;
-    padding:20px;
-}
+  .container{
+      max-width:400px;
+      width:90%;
+      padding:20px;
+      position:relative;
+      z-index:2;
+  }
 
-h1{
-    font-size:24px;
-}
+  h1{ font-size:24px; }
 
-button{
-    padding:12px 20px;
-    margin:10px;
-    border:none;
-    border-radius:8px;
-    font-size:16px;
-    cursor:pointer;
-}
+  button{
+      padding:12px 20px;
+      margin:10px;
+      border:none;
+      border-radius:8px;
+      font-size:16px;
+      cursor:pointer;
+  }
 
-.blocked{
-    background:#ccc;
-}
+  .blocked{ background:#ccc; }
+  .active{ background:#ff4d6d; color:white; }
 
-.active{
-    background:#ff4d6d;
-    color:white;
-}
+  img{
+      width:100%;
+      max-height:45vh;
+      object-fit:contain;
+      border-radius:12px;
+      margin-top:15px;
+  }
 
-img{
-    width:100%;
-    max-height:45vh; /* limitează dimensiunea pe mobil */
-    object-fit:contain;
-    border-radius:12px;
-    margin-top:15px;
-}
+  .heart{
+      position:fixed;
+      z-index:1;
+      animation:float 4s linear forwards;
+      pointer-events:none;
+      user-select:none;
+  }
 
-.heart{
-    position:fixed;
-    font-size:20px;
-    animation:float 4s linear infinite;
-}
-
-@keyframes float{
-    0%{transform:translateY(100vh); opacity:1;}
-    100%{transform:translateY(-10vh); opacity:0;}
-}
+  @keyframes float{
+      0%{ transform:translateY(110vh); opacity:1; }
+      100%{ transform:translateY(-15vh); opacity:0; }
+  }
 </style>
 </head>
 
 <body>
 
 <div class="container" id="main">
-
     <h1>vrei sa fii valentinul meu</h1>
+
+    <!-- poza de start -->
+    <img src="start.jpg" alt="start">
 
     <div id="buttons1">
         <button class="blocked">Yes</button>
         <button class="active" onclick="firstNo()">No</button>
     </div>
-
 </div>
 
 <script>
+let heartTimer = null;
+
+function startHearts(speedMs = 700){
+  stopHearts();
+  heartTimer = setInterval(() => {
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    heart.textContent = "❤️";
+
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.fontSize = (Math.random()*18 + 14) + "px";
+
+    document.body.appendChild(heart);
+    setTimeout(() => heart.remove(), 4000);
+  }, speedMs);
+}
+
+function stopHearts(){
+  if (heartTimer) {
+    clearInterval(heartTimer);
+    heartTimer = null;
+  }
+}
+
+// inimioare la intrare
+startHearts(700);
 
 function firstNo(){
-    document.getElementById("main").innerHTML = `
-        <h1>dc nu ma iubesti</h1>
-        <h1>vrei sa fii valentinul meu</h1>
-        <div>
-            <button class="active" onclick="lose()">vreau sa te omor</button>
-            <button class="active" onclick="win()">vreau sa ti musc curu</button>
-        </div>
-        <img src="poza1.jpg">
-    `;
+  document.getElementById("main").innerHTML = `
+      <h1>dc nu ma iubesti</h1>
+      <h1>vrei sa fii valentinul meu</h1>
+      <div>
+          <button class="active" onclick="lose()">vreau sa te omor</button>
+          <button class="active" onclick="win()">vreau sa ti musc curu</button>
+      </div>
+      <img src="poza1.jpg" alt="poza1">
+  `;
 }
 
 function lose(){
-    document.getElementById("main").innerHTML = `
-        <h1>ai pierdut cosminius a murit</h1>
-        <img src="poza2.jpg">
-    `;
-    document.body.style.background = "#111";
-    document.body.style.color = "white";
+  stopHearts();
+  document.getElementById("main").innerHTML = `
+      <h1>ai pierdut cosminius a murit</h1>
+      <img src="poza2.jpg" alt="poza2">
+  `;
+  document.body.style.background = "#111";
+  document.body.style.color = "white";
 }
 
 function win(){
-    document.getElementById("main").innerHTML = `
-        <h1>felicitari ai castigat</h1>
-        <img src="poza3.jpg">
-        <h2>te iubesc ❤️💘💞</h2>
-    `;
-    document.body.style.background = "#ffccd5";
-    createHearts();
+  document.getElementById("main").innerHTML = `
+      <h1>felicitari ai castigat</h1>
+      <img src="poza3.jpg" alt="poza3">
+      <h2>te iubesc ❤️💘💞</h2>
+  `;
+  document.body.style.background = "#ffccd5";
+  document.body.style.color = "black";
+
+  // inimioare mai dese la final
+  startHearts(280);
 }
-
-function createHearts(){
-    setInterval(()=>{
-        const heart = document.createElement("div");
-        heart.className="heart";
-        heart.innerHTML="❤️";
-        heart.style.left=Math.random()*100+"vw";
-        heart.style.fontSize=(Math.random()*20+15)+"px";
-        document.body.appendChild(heart);
-
-        setTimeout(()=>{heart.remove()},4000);
-    },300);
-}
-
 </script>
 
 </body>
